@@ -4,10 +4,26 @@ import 'package:flop6/data/database_service.dart';
 import 'package:flop6/features/dashboard/dashboard_screen.dart';
 import 'package:flop6/features/shop/shop_screen.dart';
 import 'package:flop6/features/profile/profile_screen.dart';
+import 'data/calendar_service.dart';
+import 'data/local_storage_service.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
+import 'dart:io' show Platform;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
   await DatabaseService.initialize();
+  await LocalStorageService.initialize();
+
+  if (kIsWeb) {
+     await CalendarService.signIn();
+  }
 
   runApp(const OmegaEnergyApp());
 }

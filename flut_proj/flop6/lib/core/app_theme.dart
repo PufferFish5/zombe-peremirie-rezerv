@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
+import 'package:flop6/core/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   AppTheme._();
 
   static const Color primaryColor = AppColors.primary;
-
-
-  // Якщо використовуєш Google Fonts — додай пакет google_fonts
-  // та заміни TextStyle на GoogleFonts.orbitron(...)
-  // Orbitron або Rajdhani добре підходять для стилю енергетиків
-  static const String _fontFamily = 'Exo 2'; // або 'Orbitron'
+  static const String _fontFamily = 'Exo 2';
 
   
-  static const TextTheme _textTheme = TextTheme(
+  static const TextTheme textTheme = TextTheme(
     displayLarge: TextStyle(
       fontFamily: _fontFamily,
       fontSize: 32,
@@ -84,7 +79,7 @@ class AppTheme {
 
     scaffoldBackgroundColor: AppColors.background,
     fontFamily: _fontFamily,
-    textTheme: GoogleFonts.exo2TextTheme(),
+    textTheme: GoogleFonts.exo2TextTheme(textTheme),
     //textTheme: _textTheme,
 
     appBarTheme: const AppBarTheme(

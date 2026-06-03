@@ -1,30 +1,15 @@
--- ════════════════════════════════════
--- КРОК 1: Видалити зайві таблиці від бота
--- ════════════════════════════════════
+
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS drinks;
 
--- ════════════════════════════════════
--- КРОК 2: Адаптувати таблицю products
--- Якщо потрібно додати стовпці — ALTER TABLE
--- Видалити стовпець в SQLite складніше (нижче пояснення)
--- ════════════════════════════════════
-
--- Додати нові поля якщо їх немає:
 -- ALTER TABLE drinks ADD COLUMN series TEXT DEFAULT '';
 -- ALTER TABLE products ADD COLUMN flavor_description TEXT DEFAULT '';
 -- ALTER TABLE products ADD COLUMN image_path TEXT DEFAULT '';
 -- ALTER TABLE products ADD COLUMN is_available INTEGER DEFAULT 1;
 
--- ════════════════════════════════════
--- КРОК 3: Видалення стовпців в SQLite
--- SQLite не підтримує DROP COLUMN до версії 3.35
--- Тому: створюємо нову таблицю → копіюємо потрібне → видаляємо стару
--- ════════════════════════════════════
 
--- Приклад: прибираємо telegram_id та chat_id з products
 CREATE TABLE drinks (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
   name            TEXT    NOT NULL,
@@ -82,10 +67,15 @@ INSERT INTO drinks (name, series, price, category, flavor_profile, description) 
 ('Hustling Lime', 'thug', 40.0, 'Citrus', 'lime sour fresh zesty bold', 'Sharp hustling lime with strong sour zesty character designed for active people who move forward non stop.'),
 ('Miyagoda Rofls', 'og', 100.0, 'Signature', 'exotic mystery legendary sweet bold', 'Legendary signature edition that combines the best flavors into one ultimate powerful and unforgettable energy experience.');
 
--- INSERT OR IGNORE INTO posts (title, body, type, event_date)
--- VALUES
---   ('Новий смак вже в магазинах', 'Omega Blaze тепер доступний у всіх точках продажу.', 'news', NULL),
---   ('Турнір Omega Cup 2025', 'Реєструйся та виграй річний запас Omega Energy!', 'event', '2025-11-15T12:00:00');
+INSERT OR IGNORE INTO posts (title, body, type, event_date)
+VALUES
+  ('Gold Citrus – New Flagship Flavor', 'Omega Energy has released its latest masterpiece — Gold Citrus. This bold energy drink combines sharp, invigorating citrus with a vibrant neon aftertaste. It is designed for those who live on the cutting edge of technology and want maximum productivity and vivid emotions. The flavor is already available in stores and on the official online store. Position it as "the key to the energy of the future".', 'post', '2026-11-15T12:00:00'),
+  ('"When City Sleeps" Noir Series – Official Launch', 'In May 2026, Omega Energy launched the mysterious noir-inspired series "When City Sleeps". The collection includes three new flavors. These drinks are created specifically for night owls, creators, and people who stay productive during twilight and nighttime hours. The official launch event took place on May 17, 2026, at the Concert Hall in Otso City. The series is now available both online and in selected retail stores.', 'event', '2026-11-15T12:00:00'),
+  ('Digital Pulse – Collaboration with Chornobrivtsi', 'Omega Energy partnered with the renowned digital art studio Chornobrivtsi (specialists in retrowave/synthwave aesthetics). Together they created the unique visual art series "Digital Pulse". The artworks reflect the neon energy, movement, and futuristic spirit of the brand. The collection is available for viewing in the online gallery on the official website and appears on a limited collection of merchandise.', 'post', '2026-10-15T12:00:00'),
+  ('"Retro Rewind" Instagram Photo Contest', 'Omega Energy is currently running the Retro Rewind photo and video contest on Instagram. Participants are invited to share creative photos or videos showing how Omega Energy fuels their life, creativity, or adventures in a retro-futuristic, 80s neon, or cyberpunk style. Use hashtag #OmegaRetroRewind. Prizes include exclusive merchandise and a full year’s supply of favorite Omega Energy flavors. The contest is active now.', 'event', '2026-12-15T12:00:00'),
+  ('Neon Arena Championship – Official Energy Partner', 'Omega Energy became the official energy partner of one of the biggest esports events of the year — Neon Arena Championship. The brand provides energy and focus for players and actively participates in the tournament with activations, giveaways, and special prizes. This partnership continues throughout 2026.', 'post', '2026-12-15T12:00:00'),
+  ('SWAG CHARGE – Limited Edition Collaboration with Omega Theft Auto', 'The biggest current campaign is the limited-edition drink SWAG CHARGE, created in collaboration with the game Omega Theft Auto. This exclusive street-energy flavor is designed for those who dominate the urban jungle. As part of the collaboration, legendary rap artist LyaShobuPodelaty released an exclusive track that plays only on the in-game radio of Omega Theft Auto. Omega Energy was the official energy sponsor of this track. "Code of Success" Contest Every specially marked can of SWAG CHARGE contains a unique promo code. Customers can enter the code on the official website or in the bot to participate in the grand prize draw.', 'event', '2026-10-15T12:00:00');
+
 
 UPDATE drinks SET image_path = 'assets/images/products/d1.png' WHERE name = 'Tropical Burst';
 UPDATE drinks SET image_path = 'assets/images/products/d2.png' WHERE name = 'Electric Berry';
@@ -100,3 +90,10 @@ UPDATE drinks SET image_path = 'assets/images/products/d10.png' WHERE name = 'Go
 UPDATE drinks SET image_path = 'assets/images/products/d11.png' WHERE name = 'Rich Pineapple';
 UPDATE drinks SET image_path = 'assets/images/products/d12.png' WHERE name = 'Hustling Lime';
 UPDATE drinks SET image_path = 'assets/images/products/d13.png' WHERE name = 'Miyagoda Rofls';
+
+UPDATE posts SET image_url = 'assets/images/p1.jpg' WHERE title = 'Gold Citrus – New Flagship Flavor';
+UPDATE posts SET image_url = 'assets/images/p2.png' WHERE title = '"When City Sleeps" Noir Series – Official Launch';
+UPDATE posts SET image_url = 'assets/images/p3.png' WHERE title = 'Digital Pulse – Collaboration with Chornobrivtsi';
+UPDATE posts SET image_url = 'assets/images/p4.png' WHERE title = '"Retro Rewind" Instagram Photo Contest';
+UPDATE posts SET image_url = 'assets/images/p5.png' WHERE title = 'Neon Arena Championship – Official Energy Partner';
+UPDATE posts SET image_url = 'assets/images/p6.png' WHERE title = 'SWAG CHARGE – Limited Edition Collaboration with Omega Theft Auto';

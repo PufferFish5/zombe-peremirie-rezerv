@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as path;
 
 import 'models/drink.dart';
 import 'models/post.dart';
@@ -13,10 +13,13 @@ class DatabaseService {
   static Database? _db;
 
 //INIT
-  static Future<void> initialize() async {
+static Future<void> initialize() async {
     if (_db != null) return;
     final dbFolder = await getDatabasesPath();
-    final dbPath = join(dbFolder, 'db.sqlite3');
+    final dbPath = path.join(dbFolder, 'db.sqlite3');
+    print('ШЛЯХ ДО МОЄЇ БАЗИ: $dbPath');
+
+
     final fileExists = await File(dbPath).exists();
     if (!fileExists) {
       await _copyDbFromAssets(dbPath);
@@ -25,12 +28,16 @@ class DatabaseService {
     _db = await openDatabase(
       dbPath,
       version: 1,
-      //onCreate: _createTables,
     );
   }
 
   static Future<void> _copyDbFromAssets(String targetPath) async {
-    final ByteData data = await rootBundle.load('assets/db/omega_energy.db');
+    final dir = Directory(path.dirname(targetPath));
+    await dir.create(recursive: true);
+  if (!await dir.exists()) {
+    await dir.create(recursive: true);
+  }
+    final ByteData data = await rootBundle.load('assets/db/db.sqlite3');
     final bytes = data.buffer.asUint8List();
     await File(targetPath).writeAsBytes(bytes, flush: true);
   }
@@ -141,7 +148,6 @@ class DatabaseService {
     return rows.map(Post.fromMap).toList();
   }
 
-
   static Future<List<Post>> getEvents() async {
     final rows = await _database.query(
       'posts',
@@ -237,12 +243,12 @@ class DatabaseService {
         o.quantity,
         o.status,
         o.created_at,
-        p.name        AS drink_name,
-        p.series      AS drink_series,
-        p.price       AS drink_price,
-        p.image_path  AS drink_image
+        d.name        AS drink_name,
+        d.series      AS drink_series,
+        d.price       AS drink_price,
+        d.image_path  AS drink_image
       FROM orders o
-      JOIN drinks p ON o.drink_id = p.id
+      JOIN drinks d ON o.drink_id = d.id
       WHERE o.user_id = ?
       ORDER BY o.created_at DESC
     ''', [profile.id]);
