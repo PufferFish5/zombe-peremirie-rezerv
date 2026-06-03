@@ -43,5 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
+#paskyda tebya tolko ignorit nado
 /android/app/google-services.json
+lib/data/calendar_service.dart
