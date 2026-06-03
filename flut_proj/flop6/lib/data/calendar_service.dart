@@ -13,7 +13,6 @@ import 'models/post.dart';
 class CalendarService {
   CalendarService._();
 
-
   static const _scopes = [
     'https://www.googleapis.com/auth/calendar.events',
     'https://www.googleapis.com/auth/userinfo.email',
